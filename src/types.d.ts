@@ -11,7 +11,8 @@ export interface Player {
   id: number,
   teamId: number,
   name: string,
-  rating: number
+  rating: number,
+  price: number
 };
 
 export interface PlayerTeam {
@@ -31,7 +32,7 @@ export interface Ok<T> {
   value: T
 };
 
-export interface Err<e> {
+export interface Err<E> {
   ok: false,
   error: E
 };
