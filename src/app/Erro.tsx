@@ -1,7 +1,7 @@
 import type { Err } from "@/types";
-import { ReactElement } from "react";
+import { ReactNode } from "react";
 
-export function Erro<E extends ReactElement>({err}: { err: Err<E>}) {
+export function Erro<E extends ReactNode>({err}: { err: Err<E>}) {
 
   return (
   <div>

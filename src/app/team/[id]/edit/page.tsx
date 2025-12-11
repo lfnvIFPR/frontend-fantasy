@@ -1,18 +1,18 @@
-import { fetchTeam, fetchPlayers } from "./fetching";
+import { fetchTeam, fetchPlayers } from "../fetching";
+import Link from "next/link";
 
-import { PlayerCard } from "./PlayerCard";
+import { PlayerCard } from "../PlayerCard";
 import { Erro } from "@/app/Erro";
 
-import Link from "next/link"
-
-import styles from "./team.module.css"
+import styles from "../team.module.css"
+import { unwrap } from "@/Result";
+import ClientPage from "./ClientPage";
 
 export default async function TeamPage({
   params
 }: { params: Promise<{id: string}>}) {
 
   const { id } = await params;
-
 
   const [team, players] = await Promise.all([fetchTeam(id), fetchPlayers()]);
   
@@ -24,19 +24,17 @@ export default async function TeamPage({
     return <Erro err={players}/>
   }
 
+  const teamComp = unwrap(team).players;
+
+  const linkCallback = (e: MouseEvent) => {
+    e.preventDefault();
+
+  }
+
 
   return <div className={styles.page}>
     <h1 className={`${styles.text} ${styles.center}`}> &quot;{team.value.name}&quot;</h1>
     <h3 className={`${styles.text} ${styles.center}`}> (ID do time: {id})</h3>
-    <ul className={styles.playerList}>
-    { 
-        team.value.players.map((id, i) => 
-            <PlayerCard 
-              key={i} 
-              player={players.value.find((p) => p.id === id)} />
-        )
-    }
-    </ul>
-    <div><Link href={`/team/${id}/edit`} replace> Editar time... </Link></div>
-  </div>;
+    <ClientPage id={id} teamComp={teamComp} players={unwrap(players)}/>
+    </div>;
 } 

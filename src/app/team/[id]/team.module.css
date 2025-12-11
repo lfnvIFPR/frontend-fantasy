@@ -23,8 +23,7 @@
   overflow-x: scroll;
   margin: 0 auto;
   -ms-overflow-style: none;
-  scrollbar-width: none;
-
+  scrollbar-width: 0px;
 }
 
 .playerList::-webkit-scrollbar {
@@ -35,9 +34,38 @@
   flex-shrink: 0;
   box-sizing: border-box;
   width: 180px;
+  height: 300px;
   display: flex;
   flex-direction: column;
   align-items: center;
   border-radius: 2px;
   border: 1px solid black;
+  scroll-snap-align: center;
 }
+
+.fig {
+  margin-bottom: auto;
+}
+
+.cardButton {
+  box-sizing: border-box;
+  align-self: stretch;
+  text-align: center;
+  background-color: red;
+  color: white;
+  display: flex;
+  padding: 4px;
+  user-select: none;
+  cursor: pointer;
+}
+
+.cardButton::before {
+  content: "X ";
+  margin-right: auto;
+}
+
+.cardButton::after {
+  content: " ";
+  margin-left: auto;
+}
+
