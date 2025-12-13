@@ -1,20 +1,26 @@
 
 "use client";
 
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { PlayerCard } from "../PlayerCard";
 import styles from "../team.module.css"
 import { Player } from "@/types";
-import { useState } from "react";
+import { Activity, useState } from "react";
+import { update } from "@/connection";
+import PlayerPicker from "./PlayerPicker";
+
 
 export default function ClientPage( 
-  {id, teamComp, players }: {
+  {id, teamComp, players, teamMap }: {
     id: string,
     teamComp: [number, number, number, number, number],
-    players: Player[]
+    players: Player[],
+    teamMap: Map<number, string>;
   }) {
-
+    
+  const router = useRouter();
   const [comp, updateComp] = useState(teamComp);
+  const [error, setError] = useState<string | null>(null);
   const popComp = (idx: number) => {
     const start = comp.slice(0, idx);
     const rest = comp.slice(idx + 1);
@@ -31,8 +37,16 @@ export default function ClientPage(
     updateComp(copy);
   }
 
-  const updateHandler = () => {
-    console.log("3");
+  const updateHandler = async () => {
+    console.log("publicando página...");
+    const res = await update("player_teams", Number(id), { players: comp.slice() as typeof comp });
+    if (!res.ok) {
+      setError(res.error);
+      return false;
+    }
+    setError(null)
+    console.log("composição atualizada!");
+    return true;
   }
   
   return <>
@@ -47,17 +61,19 @@ export default function ClientPage(
         )
     }
     </ul>
-    <div><Link 
-      href={`/team/${id}/`} 
-      replace 
-      onClick={(e) => {
+    <div><button 
+      onClick={async () => {
         if (!comp.every((id) => id >= 0 && id != null)) {
-          e.preventDefault();
           return;
         }
-        updateHandler();
+        const res = await updateHandler();
+        if (res) {
+          router.replace(`/team/${id}/`);
+        }
       }
-      }> Salvar </Link></div>
+      }> Salvar </button></div>
+      <Activity mode={error ? "visible" : "hidden"}><p>{error ? error : ''}</p></Activity>
+      <PlayerPicker teamMap={teamMap} players={players} playerRoster={comp} pickCallback={pushComp}/>
   </>;
 
 }

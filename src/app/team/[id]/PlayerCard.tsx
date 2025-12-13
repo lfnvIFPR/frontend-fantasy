@@ -7,28 +7,34 @@ import { JSX } from "react";
 export function PlayerCard(params: { 
   player?: Player, 
   isEdit: boolean,
-  onEdit: () => void
+  onEdit: () => void,
+  isPicker?: boolean
 }): JSX.Element;
 
 export function PlayerCard(params: { 
   player?: Player
 }): JSX.Element;
 
-export function PlayerCard({ player, isEdit, onEdit }: { 
+
+export function PlayerCard({ player, isEdit, onEdit = () => { void(0); }, isPicker }: { 
   player?: Player, 
   isEdit?: boolean,
-  onEdit?: () => void}) {
+  onEdit?: () => void
+  isPicker?: boolean 
+}) {
+  const pickerClass = isPicker ? styles.pickerButton : "";
+
   if (!player) {
     return <div className={styles.playerCard}>
       <div className={styles.fig}></div>
       <h4>N/A</h4>
-      { isEdit ? <div>X</div> : <div></div> }
+      { isEdit ? <button className={pickerClass} onClick={() => onEdit()}></button> : <div></div> }
     </div>
   }
   
   return <div className={styles.playerCard}>
     <div className={styles.fig}></div>
     <h4>{player.name}</h4>
-    { isEdit ? <div className={styles.cardButton}>$ {player.price} </div> : <div></div> }
+    { isEdit ? <button className={`${styles.cardButton} ${pickerClass}`} onClick={() => onEdit()}>$ {player.price} </button> : <div></div> }
   </div>
 }

@@ -1,6 +1,6 @@
 import { request } from "@/connection";
 import { Ok, Err } from "@/Result";
-import type { PlayerTeam, Player, Result } from "@/types";
+import type { Team, PlayerTeam, Player, Result } from "@/types";
 
 export async function fetchTeam(
     id: string
@@ -20,6 +20,14 @@ export async function fetchPlayers():
     Promise<Result<Player[], string>> 
 {
     const players = await request("players");
+
+    return players;
+}
+
+export async function fetchTeams(): 
+    Promise<Result<Team[], string>> 
+{
+    const players = await request("teams");
 
     return players;
 }

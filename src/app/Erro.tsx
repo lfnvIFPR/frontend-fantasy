@@ -1,3 +1,5 @@
+"use client";
+
 import type { Err } from "@/types";
 import { ReactNode } from "react";
 

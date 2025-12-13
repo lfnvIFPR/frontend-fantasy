@@ -1,4 +1,4 @@
-import { request } from "@/dummy";
+import { request, update } from "@/dummy";
 
 
-export { request };
+export { request, update };

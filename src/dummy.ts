@@ -1,7 +1,8 @@
 import type { 
     AppRequest, AppResponse, 
     Team, Player, PlayerTeam, Match,
-    Result
+    Result, Err as ErrT,
+    AppUpdate
 } from "@/types";
 
 import { Ok, Err } from "@/Result";
@@ -112,6 +113,8 @@ const MATCHES = [
     Match(14, 5, [2, 4]),
 ];
 
+console.log("🔄 Módulo recarregado:", new Date().toISOString());
+
 function dummyTeams(): Team[] {
     return TEAMS;
 }
@@ -124,12 +127,21 @@ function dummyPlayerTeams(): PlayerTeam[] {
     return PLAYER_TEAMS;
 }
 
+function updatePlayerTeams(id: number, opts: Partial<Omit<PlayerTeam, "id">>): Result<boolean, string> {
+    const idx = PLAYER_TEAMS.findIndex((t) => id === t.id);
+    if (idx === -1) return Err("No team with ID");
+    console.log(PLAYER_TEAMS[idx]);
+    PLAYER_TEAMS[idx] = { ...PLAYER_TEAMS[idx], ...opts };
+    console.log(PLAYER_TEAMS[idx]);
+    return Ok(true);
+}
+
 function dummyMatches(): Match[] {
     return MATCHES;
 }
 
 
-
+// GET HTTP/1.1
 export async function request(type: "teams"): Promise<Result<Team[], string>>;
 export async function request(type: "players"): Promise<Result<Player[], string>>;
 export async function request(type: "player_teams"): Promise<Result<PlayerTeam[], string>>;
@@ -139,5 +151,16 @@ export async function request(type: AppRequest): Promise<Result<AppResponse, str
     if (type === "players") return Ok(dummyPlayers());
     if (type === "player_teams") return Ok(dummyPlayerTeams());
     if (type === "matches") return Ok(dummyMatches());
+    return Err("invalid request");
+}
+
+// PUT HTTP/1.1
+export async function update(type: "player_teams", id: number, opts: Partial<Omit<PlayerTeam, "id">>): Promise<Result<boolean, string>>;
+export async function update(type: Exclude<AppRequest, "player_teams">, id: number, opts: Partial<Omit<AppUpdate, "id">>): Promise<ErrT<string>>;
+export async function update(type: AppRequest, id: number, opts: Partial<Omit<AppUpdate, "id">>): Promise<Result<boolean, string>> {
+    if (type === "player_teams") {
+        console.log("atualizando composicao")
+        return updatePlayerTeams(id, opts);
+    }
     return Err("invalid request");
 }

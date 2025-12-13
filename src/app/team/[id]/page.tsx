@@ -6,6 +6,7 @@ import { Erro } from "@/app/Erro";
 import Link from "next/link"
 
 import styles from "./team.module.css"
+import { unwrap } from "@/Result";
 
 export default async function TeamPage({
   params
@@ -23,7 +24,7 @@ export default async function TeamPage({
   if (!players.ok) {
     return <Erro err={players}/>
   }
-
+  
 
   return <div className={styles.page}>
     <h1 className={`${styles.text} ${styles.center}`}> &quot;{team.value.name}&quot;</h1>
@@ -31,9 +32,9 @@ export default async function TeamPage({
     <ul className={styles.playerList}>
     { 
         team.value.players.map((id, i) => 
-            <PlayerCard 
-              key={i} 
-              player={players.value.find((p) => p.id === id)} />
+          <PlayerCard 
+            key={i} 
+            player={players.value.find((p) => p.id === id)} />
         )
     }
     </ul>

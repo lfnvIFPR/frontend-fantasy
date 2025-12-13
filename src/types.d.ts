@@ -1,4 +1,3 @@
-
 export interface Team {
   id: number,
   name: string,
@@ -40,4 +39,5 @@ export interface Err<E> {
 type Result<T, E> = Ok<T> | Err<E>;
 
 export type AppResponse = Team[] | Player[] | Match[] | PlayerTeam[];
+export type AppUpdate = PlayerTeam;
 export type AppRequest = "teams" | "players" | "matches" | "player_teams";

@@ -26,6 +26,16 @@
   scrollbar-width: 0px;
 }
 
+.playerPicker {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin: 0 auto;
+  -ms-overflow-style: none;
+  scrollbar-width: 0px;
+}
+
 .playerList::-webkit-scrollbar {
   display: none;
 }
@@ -57,6 +67,19 @@
   padding: 4px;
   user-select: none;
   cursor: pointer;
+}
+
+.noPlayerCard {
+  background-color: cornflowerblue;
+  color: white;
+}
+
+.pickerButton {
+  background-color: rgb(125, 172, 55);
+  color: white;
+}
+.cardButton.pickerButton::before {
+  content: "";
 }
 
 .cardButton::before {
