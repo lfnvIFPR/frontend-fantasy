@@ -27,7 +27,7 @@ export function PlayerCard({ player, isEdit, onEdit = () => { void(0); }, isPick
   if (!player) {
     return <div className={styles.playerCard}>
       <div className={styles.fig}></div>
-      <h4>N/A</h4>
+      <h4> { isPicker ? "Escolhido..." : "N/A" }</h4>
       { isEdit ? <button className={pickerClass} onClick={() => onEdit()}></button> : <div></div> }
     </div>
   }

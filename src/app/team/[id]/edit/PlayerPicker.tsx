@@ -24,7 +24,7 @@ export default function PlayerPicker({ teamMap, playerRoster, players, pickCallb
     return teamMap.get(teamId)!;
   }
 
-  players.forEach((player, idx) => {
+  players.forEach((player) => {
     // nunca será -1
     const teamIdx = teamOrder.findIndex((id) => id == player.teamId);
     const ref = teams[teamIdx];

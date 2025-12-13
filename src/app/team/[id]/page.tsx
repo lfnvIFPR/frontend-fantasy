@@ -1,4 +1,4 @@
-import { fetchTeam, fetchPlayers } from "./fetching";
+import { fetchTeam, fetchPlayers } from "@/fetching";
 
 import { PlayerCard } from "./PlayerCard";
 import { Erro } from "@/app/Erro";

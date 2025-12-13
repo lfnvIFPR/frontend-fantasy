@@ -1,4 +1,4 @@
-import { fetchTeam, fetchPlayers, fetchTeams } from "../fetching";
+import { fetchTeam, fetchPlayers, fetchTeams } from "@/fetching";
 import Link from "next/link";
 
 import { PlayerCard } from "../PlayerCard";

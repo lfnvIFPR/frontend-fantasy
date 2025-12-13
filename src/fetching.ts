@@ -31,3 +31,11 @@ export async function fetchTeams():
 
     return players;
 }
+
+export async function fetchPlayerTeams(): 
+    Promise<Result<PlayerTeam[], string>> 
+{
+    const players = await request("player_teams");
+    return players;
+}
+
